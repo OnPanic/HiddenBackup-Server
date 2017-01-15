@@ -16,8 +16,8 @@ class Config:
         try:
             config = ConfigParser.ConfigParser()
             config.readfp(open(self._config_file))
-            self._challenge_port = config.getint('network', 'local_port')
-            self._challenge_port = config.getint('network', 'tor_port')
+            self._local_port = config.getint('network', 'local_port')
+            self._tor_port = config.getint('network', 'tor_port')
             self._server_password = config.get('tor', 'tor_password')
             self._auth_cookie = config.get('tor', 'auth_cookie')
             self._run_as = config.get('system', 'run_as')
