@@ -12,5 +12,5 @@ class Logger:
         syslog.syslog(syslog.LOG_ERR, message)
 
     def close(self):
-        syslog.syslog(syslog.LOG_INFO, 'Closing HSVerifyd')
+        syslog.syslog(syslog.LOG_INFO, 'Closing HiddenBackup')
         syslog.closelog()
