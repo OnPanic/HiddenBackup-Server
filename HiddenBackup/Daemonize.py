@@ -152,6 +152,7 @@ class Daemonize:
     def run(self):
         # Start hidden services
         if not self._hs.connect(self._config.server_password()):
+            self._log.error("There was an error when trying connect to Tor daemon")
             sys.exit(1)
         self._hs.bind()
 
