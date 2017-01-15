@@ -1,34 +1,36 @@
+import cgi
 import json
+import os
 from BaseHTTPServer import BaseHTTPRequestHandler
+
+from HiddenBackup.ConfigLoader import Config
 
 
 class BackupThread(BaseHTTPRequestHandler):
-    gpg_keyid = None
-    signed_file_path = None
-
     def do_POST(self):
         # Response object
         response = {}
 
-        # Get data from client
-        request_sz = int(self.headers["Content-length"])
-        request_str = self.rfile.read(request_sz) + " "
-        data = json.loads(request_str)
+        config = Config()
 
-        # If request is challenge
-        if data.has_key("HSVerifyd") and data["HSVerifyd"] == "challenge":
-            try:
-                f = open(self.signed_file_path)
-                response['signature'] = f.read()
-                f.close()
-                response['gpg_id'] = self.gpg_keyid
-            except:
-                response['HSVerifyd'] = False
-        else:
-            # If request is Unknown
-            response['HSVerifyd'] = False
+        # Get data from client
+        form = cgi.FieldStorage(
+            fp=self.rfile,
+            headers=self.headers,
+            environ={'REQUEST_METHOD': 'POST',
+                     'CONTENT_TYPE': self.headers['Content-Type'],
+                     })
+
+        file_path = config.backup_dir() + "/" + form['file'].filename
+        data = form['file'].file.read()
+
+        try:
+            open(file_path, "wb").write(data)
+        except IOError:
+            pass
 
         # Send response
+        response["status"] = os.path.exists(file_path)
         json_response = json.dumps(response)
         self.send_response(200)
         self.send_header('Access-Control-Allow-Origin', '*')
