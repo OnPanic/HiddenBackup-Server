@@ -1,0 +1,12 @@
+# Run:
+
+pip install qr
+
+# Clone the repo:
+
+git clone https://github.com/OnPanic/HiddenBackup-Server.git
+
+# Install:
+
+cd HiddenBackup-Server
+sudo python setup.py install
