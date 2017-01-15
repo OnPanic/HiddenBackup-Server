@@ -6,14 +6,14 @@ import time
 from BaseHTTPServer import HTTPServer
 from signal import SIGTERM
 
-from HiddenBackup.ChallengeThread import ChallengeThread
+from HiddenBackup.BackupThread import BackupThread
 from HiddenBackup.ConfigLoader import Config
 from HiddenBackup.HiddenService import HiddenService
 from HiddenBackup.LogWriter import Logger
 
 
 class Daemonize:
-    _pidfile = '/var/run/HSVerifyd.pid'
+    _pidfile = '/var/run/HDBackup.pid'
     _stdin = '/dev/null'
     _stdout = '/dev/null'
     _stderr = '/dev/null'
@@ -25,7 +25,7 @@ class Daemonize:
     def __init__(self):
         self._log = Logger()
         self._config = Config()
-        self._hs = HiddenService(self._log)
+        self._hs = HiddenService(self._log, self._config.local_port(), self._config.tor_port())
 
     def daemonize(self):
         # close log at exit
@@ -126,9 +126,7 @@ class Daemonize:
 
         # Remove hidden services from tor
         if self._hs.connect(self._config.server_password()):
-            self._hs.remove_own()
-            self._hs.remove_bind(self._config.hidden_services())
-            self._hs.close()
+            self._hs.unbind()
 
         # Try killing the daemon process
         try:
@@ -155,28 +153,11 @@ class Daemonize:
         # Start hidden services
         if not self._hs.connect(self._config.server_password()):
             sys.exit(1)
+        self._hs.bind()
 
-        self._hs.set_own(self._config.challenge_port())
-        self._hs.bind(self._config.hidden_services())
-
-        # Setup paths
-        data_dir = self._hs.get_data_dir()
-        hostname_path = data_dir + "/hostname"
-        signed_file = data_dir + "/HSVerifyd.asc"
-
-        self._hs.close()
-
-        if not os.path.isfile(signed_file):
-            self._log.error("Signature file does not exists")
-            exit(2)
-
-        # Setup class
-        ChallengeThread.gpg_keyid = self._config.gpg_keyid()
-        ChallengeThread.signed_file_path = signed_file
-
-        # Run auth server
+        # Run backup server
         try:
-            self._server = HTTPServer(('127.0.0.1', self._config.challenge_port()), ChallengeThread)
+            self._server = HTTPServer(('127.0.0.1', self._config.local_port()), BackupThread)
             # Wait forever for incoming htto requests
             self._server.serve_forever()
         except:

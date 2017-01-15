@@ -28,3 +28,12 @@ class Config:
     def server_password(self):
         return self._server_password
 
+    def local_port(self):
+        return self._local_port
+
+    def tor_port(self):
+        return self._tor_port
+
+    def run_as(self):
+        return self._run_as
+

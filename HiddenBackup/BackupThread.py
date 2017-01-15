@@ -2,7 +2,7 @@ import json
 from BaseHTTPServer import BaseHTTPRequestHandler
 
 
-class ChallengeThread(BaseHTTPRequestHandler):
+class BackupThread(BaseHTTPRequestHandler):
     gpg_keyid = None
     signed_file_path = None
 

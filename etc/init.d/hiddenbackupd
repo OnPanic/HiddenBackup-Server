@@ -1,37 +1,37 @@
 #!/bin/sh
 
 ### BEGIN INIT INFO
-# Provides:        HSVerifyd
+# Provides:        HDBackupd
 # Required-Start:  $network $remote_fs $syslog
 # Required-Stop:   $network $remote_fs $syslog
 # Default-Start:   2 3 4 5
 # Default-Stop:    1
-# Short-Description: Start HSVerifyd daemon
+# Short-Description: Start HDBackup daemon
 ### END INIT INFO
 
 PATH=/sbin:/bin:/usr/sbin:/usr/bin:/usr/local/sbin
 
 . /lib/lsb/init-functions
 
-DAEMON=/usr/sbin/hsverifyd
-PID=/var/run/HSVerifyd.pid
+DAEMON=/usr/sbin/hiddenbackupd
+PID=/var/run/HDBackup.pid
 
 test -x $DAEMON || exit 5
 
 case $1 in
         start)
-                log_daemon_msg "Starting HSVerifyd daemon" "HSVerifyd"
-                test -e $PID && log_daemon_msg "HSVerifyd pid exist??" && rm $PID
+                log_daemon_msg "Starting Hidden Backup daemon" "HDBackupd"
+                test -e $PID && log_daemon_msg "HDBackup pid exist??" && rm $PID
                 exec $DAEMON --start
                 log_end_msg 0
                 ;;
         stop)
-                log_daemon_msg "Stopping HSVerifyd daemon" "HSVerifyd"
+                log_daemon_msg "Stopping Hidden Backup daemon" "HDBackupd"
                 exec $DAEMON --stop
                 log_end_msg 0
                 ;;
         restart)
-                log_daemon_msg "Restart HSVerifyd daemon" "HSVerifyd"
+                log_daemon_msg "Restart Hidden Backup daemon" "HDBackupd"
                 $DAEMON --restart
                 ;;
         *)
