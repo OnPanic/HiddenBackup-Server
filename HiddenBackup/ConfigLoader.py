@@ -38,8 +38,8 @@ class Config:
     def run_as(self):
         return self._run_as
 
-    def get_auth_cookie(self):
+    def auth_cookie(self):
         return self._auth_cookie
 
-    def get_backup_dir(self):
+    def backup_dir(self):
         return self._backup_dir
