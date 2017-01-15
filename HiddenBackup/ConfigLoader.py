@@ -1,5 +1,4 @@
 import ConfigParser
-import json
 from sys import exit
 
 
@@ -36,4 +35,3 @@ class Config:
 
     def run_as(self):
         return self._run_as
-
