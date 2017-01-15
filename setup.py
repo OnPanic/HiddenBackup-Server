@@ -12,7 +12,7 @@ setup(
     author_email="arrase@gmail.com",
 
     # Packages
-    packages=["HiddenBackupd"],
+    packages=["HiddenBackup"],
 
     # Details
     url="https://github.com/OnPanic/HiddenBackup-Server",
