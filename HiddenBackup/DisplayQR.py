@@ -15,8 +15,8 @@ class DisplayQR:
 
     def __init__(self):
         self._log = Logger()
-        self._hs = HiddenService(self._log, self._config.local_port(), self._config.tor_port())
         self._config = Config()
+        self._hs = HiddenService(self._log, self._config.local_port(), self._config.tor_port())
 
     def display(self):
         # Start hidden services
