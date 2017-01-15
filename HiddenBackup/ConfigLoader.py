@@ -11,6 +11,7 @@ class Config:
     _server_password = None
     _auth_cookie = None
     _backup_dir = None
+    _qr_bin = None
 
     def __init__(self):
         try:
@@ -22,6 +23,7 @@ class Config:
             self._auth_cookie = config.get('tor', 'auth_cookie')
             self._run_as = config.get('system', 'run_as')
             self._backup_dir = config.get('system', 'backup_dir')
+            self._qr_bin = config.get('system', 'qr_bin')
         except ConfigParser.NoOptionError:
             print "Error reading config file."
             exit(2)
@@ -43,3 +45,6 @@ class Config:
 
     def backup_dir(self):
         return self._backup_dir
+
+    def qr_bin(self):
+        return self._qr_bin

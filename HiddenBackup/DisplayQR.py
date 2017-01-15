@@ -1,7 +1,6 @@
 import json
+import subprocess
 import sys
-
-from qrcode.console_scripts import main as qr
 
 from HiddenBackup.ConfigLoader import Config
 from HiddenBackup.HiddenService import HiddenService
@@ -41,4 +40,5 @@ class DisplayQR:
         response["host"] = host
         response["cookie"] = self._config.auth_cookie()
         response["port"] = self._config.tor_port()
-        qr(json.dumps(response))
+
+        subprocess.call([self._config.qr_bin(), json.dumps(response)])
