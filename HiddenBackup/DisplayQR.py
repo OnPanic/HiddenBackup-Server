@@ -9,6 +9,10 @@ from HiddenBackup.LogWriter import Logger
 
 
 class DisplayQR:
+    _config = None
+    _hs = None
+    _log = None
+
     def __init__(self):
         self._log = Logger()
         self._hs = HiddenService(self._log, self._config.local_port(), self._config.tor_port())
