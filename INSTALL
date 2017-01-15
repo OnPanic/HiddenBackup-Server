@@ -1,4 +1,4 @@
-# Run:
+# Install dependencies:
 
 pip install qr
 pip install stem
