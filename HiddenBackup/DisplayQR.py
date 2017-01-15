@@ -1,3 +1,4 @@
+import json
 import sys
 
 from qrcode.console_scripts import main as qr
@@ -10,7 +11,7 @@ from HiddenBackup.LogWriter import Logger
 class DisplayQR:
     def __init__(self):
         self._log = Logger()
-        self._hs = HiddenService(self._log)
+        self._hs = HiddenService(self._log, self._config.local_port(), self._config.tor_port())
         self._config = Config()
 
     def display(self):
@@ -32,4 +33,7 @@ class DisplayQR:
             print("No such file or directory: %s" % hostname_path)
             sys.exit(1)
 
-        qr(host)
+        response = {}
+        response["host"] = host
+        response["cookie"] = self._config.get_auth_cookie()
+        qr(json.dumps(response))
