@@ -35,6 +35,6 @@ class DisplayQR:
 
         response = {}
         response["host"] = host
-        response["cookie"] = self._config.get_auth_cookie()
+        response["cookie"] = self._config.auth_cookie()
         response["port"] = self._config.tor_port()
         qr(json.dumps(response))
