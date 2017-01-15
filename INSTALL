@@ -1,6 +1,7 @@
 # Run:
 
 pip install qr
+pip install stem
 
 # Clone the repo:
 
