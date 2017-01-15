@@ -10,6 +10,7 @@ class Config:
     _run_as = None
     _server_password = None
     _auth_cookie = None
+    _backup_dir = None
 
     def __init__(self):
         try:
@@ -20,6 +21,7 @@ class Config:
             self._server_password = config.get('tor', 'tor_password')
             self._auth_cookie = config.get('tor', 'auth_cookie')
             self._run_as = config.get('system', 'run_as')
+            self._backup_dir = config.get('system', 'backup_dir')
         except ConfigParser.NoOptionError:
             print "Error reading config file."
             exit(2)
@@ -38,3 +40,6 @@ class Config:
 
     def get_auth_cookie(self):
         return self._auth_cookie
+
+    def get_backup_dir(self):
+        return self._backup_dir
