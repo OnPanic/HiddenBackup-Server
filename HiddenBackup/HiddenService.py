@@ -41,7 +41,7 @@ class HiddenService:
 
     def bind(self):
         self._controller.create_hidden_service(self.get_data_dir(), self._tor_port, target_port=self._local_port,
-                                               basic_auth={'HiddenBackup': "basic"})
+                                               auth_type="basic", client_names={"HiddenBackup"})
 
     def unbind(self):
         self._controller.remove_hidden_service(self.get_data_dir(), self._local_port)
