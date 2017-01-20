@@ -33,11 +33,15 @@ class HiddenService:
 
         return True
 
+    def get_service_config(self):
+        return self._controller.get_hidden_service_conf()
+
     def get_data_dir(self):
         return os.path.join(self._controller.get_conf('DataDirectory', '/tmp'), 'HiddenBackup')
 
     def bind(self):
-        self._controller.create_hidden_service(self.get_data_dir(), self._tor_port, target_port=self._local_port)
+        self._controller.create_hidden_service(self.get_data_dir(), self._tor_port, target_port=self._local_port,
+                                               basic_auth={'HiddenBackup': "basic"})
 
     def unbind(self):
         self._controller.remove_hidden_service(self.get_data_dir(), self._local_port)

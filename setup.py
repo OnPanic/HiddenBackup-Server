@@ -24,5 +24,5 @@ setup(
         ('/etc/', ['etc/hiddenbackupd.conf']),
         ('/usr/sbin', ['hiddenbackupd'])
     ],
-    requires=['stem','qrcode']
+    requires=['stem']
 )

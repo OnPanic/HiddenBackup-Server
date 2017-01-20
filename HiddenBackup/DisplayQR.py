@@ -38,7 +38,6 @@ class DisplayQR:
 
         response = {}
         response["host"] = host
-        response["cookie"] = self._config.auth_cookie()
         response["port"] = self._config.tor_port()
 
         subprocess.call([self._config.qr_bin(), json.dumps(response)])
