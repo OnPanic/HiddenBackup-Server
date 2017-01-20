@@ -32,7 +32,7 @@ class DisplayQR:
         # Read hostname
         try:
             with open(hostname_path, 'r') as hostname:
-                host = hostname.read().replace('\n', '')
+                host = hostname.read().split(" ")[0]
         except IOError:
             print("No such file or directory: %s" % hostname_path)
             sys.exit(1)
@@ -41,7 +41,11 @@ class DisplayQR:
         try:
             with open(cookie_path, 'r') as cookie:
                 lines = cookie.readlines()
-                auth_string = "HidServAuth " + host + " " + lines[1].split(" ")[1] + " " + lines[0].split(" ")[1]
+                auth_string = "HidServAuth {0} {1} {2}".format(
+                    host,
+                    lines[1].split(" ")[1].replace('\n', ''),
+                    lines[0].split(" ")[1].replace('\n', '')
+                )
         except IOError:
             print("No such file or directory: %s" % cookie_path)
             sys.exit(1)
