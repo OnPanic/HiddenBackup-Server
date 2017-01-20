@@ -27,32 +27,30 @@ class DisplayQR:
         # Setup paths
         data_dir = self._hs.get_data_dir()
         hostname_path = data_dir + "/hostname"
-        cookie_path = data_dir + "/client_keys"
+        clients_path = data_dir + "/client_keys"
 
         # Read hostname
         try:
             with open(hostname_path, 'r') as hostname:
-                host = hostname.read().split(" ")[0]
+                host_line = hostname.read()
+                host = host_line.split(" ")[0]
+                cookie = host_line.split(" ")[1]
         except IOError:
             print("No such file or directory: %s" % hostname_path)
             sys.exit(1)
 
         # Read cookie
         try:
-            with open(cookie_path, 'r') as cookie:
-                lines = cookie.readlines()
-                auth_string = "HidServAuth {0} {1} {2}".format(
-                    host,
-                    lines[1].split(" ")[1].replace('\n', ''),
-                    lines[0].split(" ")[1].replace('\n', '')
-                )
+            with open(clients_path, 'r') as client:
+                lines = client.readlines()
+                client_name = lines[0].split(" ")[1].replace('\n', '')
         except IOError:
-            print("No such file or directory: %s" % cookie_path)
+            print("No such file or directory: %s" % clients_path)
             sys.exit(1)
 
         response = {}
         response["host"] = host
-        response["cookie"] = auth_string
+        response["cookie"] = "HidServAuth {0} {1} {2}".format(host, cookie, client_name)
         response["port"] = self._config.tor_port()
 
         subprocess.call([self._config.qr_bin(), json.dumps(response)])
