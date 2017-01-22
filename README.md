@@ -4,4 +4,4 @@
 
 This app is part of the [On Panic Project](https://onpanic.github.io/)
 
-- [Setup instructions](https://github.com/OnPanic/HiddenBackup-Server/wiki)
+- [Server setup](https://github.com/OnPanic/HiddenBackup-Server/wiki)
